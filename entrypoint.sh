@@ -1,11 +1,11 @@
 #!/bin/sh
 
-echo "Démarrage de OpenLDAP..."
+echo "Démarrage de OpenLDAP sans scripts bloquants..."
 
-# Supprimer la ligne `kill -TERM` seulement si le fichier existe
+# Désactiver le script d'arrêt automatique en renommant le fichier
 if [ -f "/container/run/startup/slapd" ]; then
-    sed -i '/kill -TERM/d' /container/run/startup/slapd
+    mv /container/run/startup/slapd /container/run/startup/slapd.bak
 fi
 
-# Lancer le serveur LDAP
-slapd -h "ldap://0.0.0.0:389 ldaps://0.0.0.0:636" -d 256
+# Démarrer OpenLDAP directement sans dépendre du script startup
+exec slapd -h "ldap://0.0.0.0:389 ldaps://0.0.0.0:636" -d 256
