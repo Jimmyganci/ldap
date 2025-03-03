@@ -4,10 +4,10 @@ ENV LDAP_ORGANISATION="My Organization"
 ENV LDAP_DOMAIN="example.com"
 ENV LDAP_ADMIN_PASSWORD="adminpassword"
 
-# Copie du script de démarrage
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Désactiver le comportement problématique qui force l'arrêt d'OpenLDAP
+RUN sed -i '/kill -TERM/d' /container/run/startup/slapd
 
+# Exposition des ports LDAP
 EXPOSE 389 636
 
-CMD ["/entrypoint.sh"]
+CMD ["/container/tool/run"]
