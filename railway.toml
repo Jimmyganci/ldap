@@ -1,5 +1,5 @@
 [build]
-builder = "NIXPACKS"
+builder = "DOCKERFILE"
 
 [start]
-cmd = "slapd -d 256"
+cmd = "/container/tool/run"
